@@ -16,11 +16,12 @@ struct CategoryHome: View {
         NavigationView {
             List {
                 HStack {
-                    modelData.features[0].image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: 200)
-                        .clipped()
+                    PageView(pages: modelData.features.map {
+                        FeatureCard(landmark: $0)
+                    })
+                    .aspectRatio(3 / 2, contentMode: .fit)
+                    .listRowInsets(EdgeInsets())
+                    
                     NavigationLink(destination: LandmarkDetail(landmark: modelData.features[0])) {
                         EmptyView()
                     }
