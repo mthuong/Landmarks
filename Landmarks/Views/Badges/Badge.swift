@@ -8,6 +8,13 @@
 import SwiftUI
 
 struct Badge: View {
+    @State private var isAnimating = false
+    @State private var showProgress = false
+    var foreverAnimation: Animation {
+        Animation.linear(duration: 6.0)
+            .repeatForever(autoreverses: false)
+    }
+    
     static let rotationCount = 8
     
     var badgeSymbols: some View {
@@ -29,6 +36,10 @@ struct Badge: View {
                     .scaleEffect(1.0 / 4.0, anchor: .top)
                     .position(x: geometry.size.width / 2.0, y: (3.0 / 4.0) * geometry.size.height)
             }
+            .rotationEffect(Angle(degrees: self.isAnimating ? 360 : 0.0))
+            .animation(self.isAnimating ? foreverAnimation : .default)
+            .onAppear { self.isAnimating = true }
+            .onDisappear { self.isAnimating = false }
         }
         .scaledToFit()
     }
